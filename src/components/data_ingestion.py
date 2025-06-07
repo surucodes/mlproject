@@ -7,7 +7,9 @@ from src.logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
-
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+from src.utils import save_object
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifacts',"train.csv")
@@ -47,4 +49,9 @@ class DataIngestion:
             
 if __name__ == "__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    #This calls the constructor which creates a file path for the pickle file that is going to store the preprocessing object that is the column transformer.
+    data_transformation.initiate_data_transformation(train_data,test_data)
+# the initiate_data_transformation method , in the data_transformation object, of the DataTransformation class, retrieves the train and test data as an output of the data ingestion module and then applies the column transformer (which in itself has pipelines for the num and cat data) to the target variable separated train and test dataframe and then concatenates them back using np.c_ and then returns the trasformed train and test array with the preprocessing object saved finally inorder to apply it to the new data

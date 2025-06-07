@@ -2,8 +2,13 @@
 # It’s a plain text file that lists all the Python packages your project needs — with exact versions.
 pandas
 numpy
+matplotlib
 seaborn
--e .
+scikit-learn
+catboost
+xgboost
+dill 
+# -e .
 #this -e setup.py will automaticallt get triggered.
 # 
 # pip install -r requirements.txt
