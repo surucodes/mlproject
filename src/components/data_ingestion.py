@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 from src.utils import save_object
+from src.components.model_trainer import ModelTrainer
+from src.components.model_trainer import ModelTrainerConfig
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifacts',"train.csv")
@@ -53,5 +56,9 @@ if __name__ == "__main__":
 
     data_transformation = DataTransformation()
     #This calls the constructor which creates a file path for the pickle file that is going to store the preprocessing object that is the column transformer.
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_array,test_array,_ = data_transformation.initiate_data_transformation(train_data,test_data)
 # the initiate_data_transformation method , in the data_transformation object, of the DataTransformation class, retrieves the train and test data as an output of the data ingestion module and then applies the column transformer (which in itself has pipelines for the num and cat data) to the target variable separated train and test dataframe and then concatenates them back using np.c_ and then returns the trasformed train and test array with the preprocessing object saved finally inorder to apply it to the new data
+
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_array,test_array))
+    
