@@ -26,3 +26,5 @@ class CustomException(Exception):
 #     except Exception as e:
 #         logging.info(f"Divide by Zero and {e}")
 #         raise CustomException(e,sys)
+
+# the errork,why it isn't getting logged into the file is because we didn't import the logger.py file as a module in this exception.py file. Once if I do that, it'll make a log as expected.

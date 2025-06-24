@@ -19,7 +19,7 @@ from xgboost import XGBRegressor
 from src.exception import CustomException
 from src.logger import logging
 from src.utils import save_object , evaluate_model
-
+from src.components.HyperParameterTuning import HyperParameter , HyperParameterConifg
 @dataclass
 class ModelTrainerConfig:
     trained_model_file_path = os.path.join("artifacts","model.pkl")
@@ -43,13 +43,16 @@ class ModelTrainer:
             "Random Forest": RandomForestRegressor(),
             "Decision Tree": DecisionTreeRegressor(),
             "Gradient Boosting": GradientBoostingRegressor(),
-            "Linar Regression" : LinearRegression(),
+            "Linear Regression" : LinearRegression(),
             "K-Neighbors Regressor":KNeighborsRegressor(),
             "XGBRegressor": XGBRegressor(),
             "CatBoosting Regressor" : CatBoostRegressor(verbose=False),
             "AdaBoost Regressor": AdaBoostRegressor()
             }
-            model_report :dict = evaluate_model(x_train=x_train, y_train=y_train,x_test=x_test,y_test=y_test, models = models)
+            hyper = HyperParameter()
+            model_report :dict = hyper.initiate_hyperparametertuning(X_train = x_train ,y_train = y_train ,X_test = x_test,y_test = y_test , models = models)
+
+            # model_report :dict = evaluate_model(x_train=x_train, y_train=y_train,x_test=x_test,y_test=y_test, models = models)
             #model report getting in the form of dictionary is a function in the utils
             best_model_score = max(sorted(model_report.values()))
 
@@ -57,7 +60,7 @@ class ModelTrainer:
             best_model = models[best_model_name]
 
             if best_model_score < 0.6:
-                raise CustomException("Np best model found")
+                raise CustomException("No best model found")
             logging.info("Best model found on both training and testing dataset")
 
             save_object(

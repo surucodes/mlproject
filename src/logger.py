@@ -51,7 +51,7 @@ logging.basicConfig(
 # logging.error("Failed to open the data file")
 # logging.critical("System crash! Immediate action required!")
 
-
+# Here, the logs are not rotated, the log files grow forever
 #test
 #if __name__ == "__main__":
 #    logging.info("Logging has started")
