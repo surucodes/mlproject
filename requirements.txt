@@ -8,6 +8,7 @@ scikit-learn
 catboost
 xgboost
 dill 
+Flask
 # -e .
 #this -e setup.py will automaticallt get triggered.
 # 
